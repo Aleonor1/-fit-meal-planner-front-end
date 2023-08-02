@@ -14,6 +14,7 @@ const initialFormState = {
   confirmPassword: "",
 };
 
+
 const ResetPasswordForm: FC = () => {
   const [form, setForm] = useState<FormState>(initialFormState);
   const [confirmPasswordError, setConfirmPasswordError] = useState<
@@ -22,6 +23,7 @@ const ResetPasswordForm: FC = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [validToken, setValidToken] = useState<boolean>(false);
+  const [clientId, setClientId] = useState("");
 
   const navigate = useNavigate();
 
@@ -89,9 +91,9 @@ const ResetPasswordForm: FC = () => {
     }
 
     try {
-      const response = await api.post(
-        "clients/forgot-password",
-        JSON.stringify({}),
+      const response = await api.put(
+        `clients/${clientId}/update-password`,
+        JSON.stringify({ newPassword: form.password }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -129,6 +131,7 @@ const ResetPasswordForm: FC = () => {
         }
       );
       if (response && response.status === StatusCodes.OK) {
+        setClientId(response.data.id);
         setValidToken(true);
       } else {
         setValidToken(false);
@@ -235,7 +238,7 @@ const ResetPasswordForm: FC = () => {
             type="submit"
             className="block w-full bg-purple-600 hover:bg-purple-700  mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
           >
-            Reset Password
+            Change Password
           </button>
           <span
             className="text-sm ml-2 hover:text-blue-500 cursor-pointer"
