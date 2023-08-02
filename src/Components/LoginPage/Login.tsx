@@ -1,9 +1,8 @@
-import React, { useState, FC } from "react";
-import api from "../../axios/api";
 import { StatusCodes } from "http-status-codes";
+import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import Layout from "../../Layout/Layout";
+import api from "../../axios/api";
 import NavigationBar from "../NavigationBar/NavigationBar";
 
 type FormState = {
@@ -18,7 +17,6 @@ const initialFormState = {
 
 const LoginForm: FC = () => {
   const [form, setForm] = useState<FormState>(initialFormState);
-  const [cookies, setCookie] = useCookies(["accessToken"]);
 
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [usernameError, setUsernameError] = useState<string | null>(null);
@@ -55,10 +53,7 @@ const LoginForm: FC = () => {
         const expirationDate = new Date();
         expirationDate.setHours(expirationDate.getHours() + 1);
 
-        setCookie("accessToken", accessToken, {
-          expires: expirationDate,
-          path: "/",
-        });
+        localStorage.setItem("accessToken", accessToken);
         navigate("/");
       } else {
         setGeneralError(response.statusText);

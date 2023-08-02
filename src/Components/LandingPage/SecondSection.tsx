@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import mealplanner from "../../assets/How-To-Meal-Plan.jpg";
-import Layout from "../../Layout/Layout";
 
 export default function SecondSection() {
   return (

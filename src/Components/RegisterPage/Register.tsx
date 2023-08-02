@@ -53,7 +53,6 @@ const RegisterForm: FC = () => {
       passwordError !== null ||
       confirmPasswordError !== null;
 
-    console.log(isButtonDisabled);
   }, [
     usernameError,
     lastNameError,

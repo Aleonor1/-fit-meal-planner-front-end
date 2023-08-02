@@ -82,7 +82,6 @@ const GeneralInfoCard = () => {
     const countryCities = countriesData[value];
     if (countryCities) {
       setCities(countryCities);
-      console.log(countryCities);
     } else {
       setCities([]);
     }

@@ -5,9 +5,8 @@ import LoginForm from "./Components/LoginPage/Login";
 import RegisterForm from "./Components/RegisterPage/Register";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ForgotPasswordForm from "./Components/ForgotPassword/ForgotPassword";
-import ResetPasswordForm from "./Components/ResetPasswordForm";
+import ResetPasswordForm from "./Components/ForgotPassword/ResetPasswordForm";
 import AccountSettingsPage from "./Components/AccountSetting";
-import Layout from "./Layout/Layout";
 import LandingPage from "./Components/LandingPage/LandingPage";
 
 const root = ReactDOM.createRoot(
@@ -28,7 +27,7 @@ const router = createBrowserRouter([
     element: <ForgotPasswordForm />,
   },
   {
-    path: "/reset-password",
+    path: "/reset-password/",
     element: <ResetPasswordForm />,
   },
   {
@@ -44,8 +43,6 @@ const router = createBrowserRouter([
 root.render(
 
   <React.StrictMode>
-    {/* <Layout> */}
     <RouterProvider router={router} />
-    {/* </Layout> */}
   </React.StrictMode>
 );

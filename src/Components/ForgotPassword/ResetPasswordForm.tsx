@@ -1,8 +1,8 @@
-import React, { useState, FC, useEffect } from "react";
-import api from "../axios/api";
 import { StatusCodes } from "http-status-codes";
-import { useNavigate } from "react-router-dom";
-import InvalidTokenPage from "./InvalidTokenPage";
+import React, { FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../axios/api";
+import InvalidTokenPage from "../InvalidTokenPage";
 
 type FormState = {
   password: string;
@@ -21,9 +21,11 @@ const ResetPasswordForm: FC = () => {
     string | null
   >(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordChanged, setPasswordChanged] = useState(false);
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [validToken, setValidToken] = useState<boolean>(false);
   const [clientId, setClientId] = useState("");
+
 
   const navigate = useNavigate();
 
@@ -103,7 +105,10 @@ const ResetPasswordForm: FC = () => {
         }
       );
       if (response && response.status === StatusCodes.OK) {
-        navigate("/login");
+        setPasswordChanged(true); 
+        setTimeout(() => {
+          navigate("/login"); 
+        }, 3000); 
       } else {
         setGeneralError(response.statusText);
       }
@@ -121,7 +126,7 @@ const ResetPasswordForm: FC = () => {
 
       const response = await api.post(
         "clients/validate-token",
-        JSON.stringify({ token }),
+        JSON.stringify({ token: token }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -159,6 +164,16 @@ const ResetPasswordForm: FC = () => {
           <h1 className="text-gray-800 font-bold text-2xl mb-1">
             Forgot Password
           </h1>
+
+          {passwordChanged && (
+            <div
+              className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+              role="alert"
+            >
+              <span className="font-medium">Password changed successfully!</span>{" "}
+              Your password has been changed. You will be redirected to the login page shortly.
+            </div>
+          )}
 
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 ">
             <svg
